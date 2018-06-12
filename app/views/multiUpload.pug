@@ -3,7 +3,25 @@ html
         meta(charset="utf-8")
         title upload
     body
-        form(action="/upload",method="post",encType="multipart/form-data")
-            Select images: 
-                input(type="file",name="sampleFile",multiple)
-            input(type="submit")
+             
+        input(id="files",type="file",multiple)
+        button(id="submit") Submit
+        script. 
+            let btn = document.getElementById("submit"),
+                input = document.getElementById("files");
+            btn.addEventListener("click",evt=>{
+                let formData = new FormData();
+                const files = [...input.files]; 
+                
+                files.forEach(file => {
+                    formData.append("sampleFile",file);
+                }); 
+                fetch('/upload', { // Your POST endpoint
+                    method: 'POST',
+                    headers: {
+                    //"Content-Type": "multipart/form-data; boundary=something"
+                    },
+                    body: formData // This is your file object
+                }).then(success => console.log(success.status))
+                .catch(error => console.log(error)); 
+            });
