@@ -6,13 +6,33 @@ html
              
         input(id="files",type="file",multiple)
         button(id="submit") Submit
+        div(id="display")
         script. 
+
+            // render the image in our view
+            function renderImage(file) {
+                
+                // generate a new FileReader object
+                var reader = new FileReader();
+
+                // inject an image with the src url
+                reader.onload = function(event) {
+                    let the_url = event.target.result;
+                    document.getElementById("display").innerHTML += "<img src='" + the_url + "' />";
+                }
+
+                // when the file is read it triggers the onload event above.
+                reader.readAsDataURL(file);
+            }
+
             let btn = document.getElementById("submit"),
                 input = document.getElementById("files");
             btn.addEventListener("click",evt=>{
                 let formData = new FormData();
                 const files = [...input.files]; 
+
                 
+
                 files.forEach(file => {
                     formData.append("sampleFile",file);
                 }); 
@@ -25,3 +45,9 @@ html
                 }).then(success => console.log(success.status))
                 .catch(error => console.log(error)); 
             });
+            input.addEventListener("change",evt=>{
+                document.getElementById("display").html = "";
+                [...input.files].forEach(file=>{
+                    renderImage(file);
+                }); 
+            }); 
