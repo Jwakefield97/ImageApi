@@ -4,7 +4,7 @@ const express = require("express"),
     bodyParser = require("body-parser"), 
     http = require("http").Server(app),
     homeRoutes = require("./routes/homeRoutes.js"),
-	expressSession = require("express-session"); //used for logins and sessions;   
+    expressSession = require("express-session"); //used for logins and sessions;   
 
 app.use(express.static("resources"));
 
